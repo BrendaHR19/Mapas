@@ -1,35 +1,45 @@
-var map = L.map('map').setView([4.7110, -74.0721], 13);
-
-// Definir dos capas base
-var capaOSM = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
-}).addTo(map); // Capa base por defecto
-
-var capaEsri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-    attribution: '&copy; Esri, DigitalGlobe, GeoEye, Earthstar Geographics'
-}).addTo(map); // Segunda capa por encima
-
-// Obtener el control deslizante
-var slider = document.getElementById("slider");
-
-// Evento para cambiar la opacidad de la capa superior (Esri)
-slider.addEventListener("input", function() {
-    capaEsri.setOpacity(this.value);
-});
-
-// Activar herramientas de dibujo con Leaflet-Geoman
-map.pm.addControls({
+// Inicializar el mapa centrado en Colombia con zoom activado y arrastre desactivado
+var map = L.map('map', {
+    center: [4.5709, -74.2973],
+    zoom: 6,
+    zoomControl: true,      // Activa el control de zoom (+/-)
+    dragging: false,        // Desactiva el arrastre (paneo)
+    scrollWheelZoom: true,  // Permite hacer zoom con la rueda del ratón
+    doubleClickZoom: true,  // Permite hacer zoom con doble clic
+    touchZoom: true         // Permite hacer zoom táctil
+  });
+  
+  // Capa izquierda: Mapa político (CartoDB Positron)
+  var politico = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    maxZoom: 19,
+    attribution: '© CartoDB | © OpenStreetMap contributors'
+  }).addTo(map);
+  
+  // Capa derecha: Mapa base (OpenStreetMap)
+  var base = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map);
+  
+  // Crear control deslizante para comparar las capas
+  var sideBySide = L.control.sideBySide(politico, base).addTo(map);
+  
+  // Activar herramientas de dibujo con Geoman
+  map.pm.addControls({
     position: 'topleft',
-    drawMarker: true,
-    drawPolygon: true,
-    drawPolyline: true,
-    drawCircle: true,
-    drawRectangle: true,
-    editMode: true,
-    dragMode: true,
-    cutPolygon: true,
-    removalMode: true
-});
+    drawMarker: true,    // Dibujar puntos
+    drawPolyline: true,  // Dibujar líneas
+    drawPolygon: true,   // Dibujar polígonos
+    editMode: true,      // Editar geometrías
+    removalMode: true    // Eliminar geometrías
+  });
+  
+  // Permitir interacción sobre las geometrías dibujadas
+  map.on('pm:create', function(e) {
+    e.layer.pm.enable();  // Habilita la edición para la nueva geometría
+    console.log('Geometría creada:', e.layer.toGeoJSON());
+  });
+  
 
 /* Evento para capturar los datos de los dibujos
 map.on('pm:create', function(e) {

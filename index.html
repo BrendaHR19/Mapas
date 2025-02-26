@@ -1,26 +1,18 @@
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa Swipe sin SideBySide</title>
-
-    <!-- Estilos de Leaflet y Geoman -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-geoman-free@2.11.0/dist/leaflet-geoman.css" />
-    <link rel="stylesheet" href="estilos.css" />
+  <meta charset="UTF-8" />
+  <title>Mapa de Colombia</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css" />
+  <link rel="stylesheet" href="estilos.css" />
 </head>
 <body>
+  <h2>Mapa de Colombia: Comparación con Barra Deslizante</h2>
+  <div id="map"></div>
 
-    <div id="map"></div>
-
-    <!-- Control Deslizante -->
-    <input type="range" id="slider" min="0" max="1" step="0.01" value="1">
-
-    <!-- Scripts de Leaflet y Geoman -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-geoman-free@2.11.0/dist/leaflet-geoman.min.js"></script>
-    
-    <script src="mapas.js"></script>
-
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/digidem/leaflet-side-by-side/leaflet-side-by-side.min.js"></script>
+  <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.min.js"></script>
+  <script src="mapas.js"></script>
 </body>
 </html>
